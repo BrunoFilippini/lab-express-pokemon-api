@@ -21,19 +21,35 @@ router.get("/selected-pokemon/:id", (req, res) => {
 });
 
 // Adiciona um novo Pokemon
-router.post("/add-new-pokemon", (req, res) => {
-  const idGenerator = Math.floor(Math.random() * (1000 - 2000 + 1) + 2000);
+// router.post("/add-new-pokemon", (req, res) => {
+//   const idGenerator = Math.floor(Math.random() * (1000 - 2000 + 1) + 2000);
 
-  const newPokemonList = {
-    id: idGenerator,
-    ...req.body,
-  };
+//   const newPokemonList = {
+//     id: idGenerator,
+//     ...req.body,
+//   };
 
-  allPokemon.push(newPokemonList);
+//   allPokemon.push(newPokemonList);
 
-  console.log(newPokemonList);
+//   console.log(newPokemonList);
 
-  return res.status(201).json(newPokemonList);
+//   return res.status(201).json(newPokemonList);
+// });
+
+app.post("/add-new-pokemon", (req, res) => {
+  const formData = req.body;
+
+  // Pegando o último id da lista de todos os Pokemons
+  const lastId = allPokemon[allPokemon.length - 1].id;
+
+  // O novo Pokemon vai continuar a sequencia de ids
+  const newPokemon = { ...formData, id: lastId + 1 };
+
+  allPokemon.push(newPokemon);
+
+  console.log(newPokemon);
+
+  return res.json(newPokemon);
 });
 
 // Atualiza um Pokemon
